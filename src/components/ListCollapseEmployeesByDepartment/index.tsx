@@ -39,7 +39,13 @@ export function ListCollapseEmployeesByDepartment() {
                 {new Date(employeeData.lastLogin).toLocaleDateString()}
               </span>
               <span>{employeeData.department}</span>
-              <span>{employeeData.isActive ? "Active" : "Inactive"}</span>
+              <span
+                className={`Status: ${
+                  employeeData.isActive ? "text-green-500" : "text-red-500"
+                }`}
+              >
+                {employeeData.isActive ? "Active" : "Inactive"}
+              </span>
             </div>
           ),
           children: (
