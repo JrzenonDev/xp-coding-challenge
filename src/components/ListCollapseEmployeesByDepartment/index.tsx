@@ -2,10 +2,10 @@
 
 import React, { useEffect, useState } from "react";
 import { Collapse } from "antd";
-import { makeServerGetEmployees } from "@/src/services/makeServerGetEmployees";
+import { makeServer } from "@/src/services/makeServer";
 
 if (typeof window !== "undefined") {
-  makeServerGetEmployees();
+  makeServer();
 }
 
 interface Employee {
