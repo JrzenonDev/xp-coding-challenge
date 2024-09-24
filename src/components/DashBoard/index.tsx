@@ -1,17 +1,32 @@
 "use client";
 
 import { Card } from "antd";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { PieChart, Pie, Cell } from "recharts";
+import { makeServer } from "@/src/services/makeServer";
 
-const data = [
-  { name: "DUNNO", value: 900, color: "#855CF8" },
-  { name: "I’m Boring", value: 150, color: "#E289F2" },
-  { name: "Money", value: 150, color: "#3f2780" },
-  { name: "Fun", value: 150, color: "#a98cfa" },
-];
+if (typeof window !== "undefined") {
+  makeServer();
+}
 
 export function DashBoard() {
+  const [data, setData] = useState<any[]>([]);
+
+  useEffect(() => {
+    fetch("/api/dashboard")
+      .then((response) => {
+        console.log("Resposta do servidor:", response);
+        return response.json();
+      })
+      .then((dashboardData) => {
+        console.log("Dados do dashboard:", dashboardData);
+        setData(dashboardData);
+      })
+      .catch((error) => {
+        console.error("Erro ao buscar os dados do dashboard:", error);
+      });
+  }, []);
+
   return (
     <Card className="w-[300px] flex justify-center items-center">
       <div className="h-full flex justify-center items-center flex-col">
