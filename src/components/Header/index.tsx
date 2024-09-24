@@ -11,18 +11,30 @@ import logoutIcon from "@/src/assets/images/logout.png";
 export function Header() {
   const customMenu = (
     <div className="p-4 bg-white border rounded-lg shadow-lg">
-      <div className="flex items-center py-2">
-        <Image src={userIcon} alt="User" width={24} height={24} />
+      <div className="flex items-start py-2">
+        <Image
+          className="mt-[2px]"
+          src={userIcon}
+          alt="User"
+          width={20}
+          height={20}
+        />
         <div className="ml-2">
-          <p className="text-2xl font-bold">My Profile</p>
-          <p>Change settings of your account.</p>
+          <p className="text-sm">My Profile</p>
+          <p className="text-xs">Change settings of your account.</p>
         </div>
       </div>
       <hr className="my-2" />
-      <div className="flex items-center py-2">
-        <Image src={logoutIcon} alt="User" width={24} height={24} />
+      <div className="flex items-start py-2">
+        <Image
+          className="mt-[2px]"
+          src={logoutIcon}
+          alt="User"
+          width={20}
+          height={20}
+        />
         <div className="ml-2">
-          <p className="text-2xl font-bold">Logout</p>
+          <p className="text-sm text-red-600">Logout</p>
         </div>
       </div>
     </div>
