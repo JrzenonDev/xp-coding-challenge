@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Collapse } from "antd";
 
 const data = [
@@ -416,36 +416,117 @@ const data = [
   },
 ];
 
+const items = data.map((employeeData, index) => ({
+  key: index.toString(),
+  label: (
+    <div className="grid grid-cols-4 gap-4">
+      <span>{employeeData.employee}</span>
+      <span>{new Date(employeeData.lastLogin).toLocaleDateString()}</span>
+      <span>{employeeData.department}</span>
+      <span>{employeeData.isActive ? "Active" : "Inactive"}</span>
+    </div>
+  ),
+  children: (
+    <div className="flex flex-col space-y-1">
+      <p>Email: {employeeData.mail}</p>
+      <p>Last Login: {new Date(employeeData.lastLogin).toLocaleString()}</p>
+      <p>Department: {employeeData.department}</p>
+      <p>Status: {employeeData.isActive ? "Active" : "Inactive"}</p>
+    </div>
+  ),
+}));
+
 export function ListCollapseEmployeesByDepartment() {
-  const items = data.map((employeeData, index) => ({
-    key: index.toString(),
-    label: (
-      <div className="grid grid-cols-4 gap-4">
-        <span>{employeeData.employee}</span>
-        <span>{new Date(employeeData.lastLogin).toLocaleDateString()}</span>
-        <span>{employeeData.department}</span>
-        <span>{employeeData.isActive ? "Active" : "Inactive"}</span>
-      </div>
-    ),
-    children: (
-      <div className="flex flex-col space-y-1">
-        <p>Email: {employeeData.mail}</p>
-        <p>Last Login: {new Date(employeeData.lastLogin).toLocaleString()}</p>
-        <p>Department: {employeeData.department}</p>
-        <p>Status: {employeeData.isActive ? "Active" : "Inactive"}</p>
-      </div>
-    ),
-  }));
+  const [filteredItems, setFilteredItems] = useState(items);
+  const [employeeFilter, setEmployeeFilter] = useState("");
+  const [lastLoginFilter, setLastLoginFilter] = useState("");
+  const [departmentFilter, setDepartmentFilter] = useState("");
+  const [statusFilter, setStatusFilter] = useState("");
+
+  useEffect(() => {
+    const filtered = items.filter((item) => {
+      const employeeName = item.label.props.children[0].props.children; // Acessar o texto do span
+      const lastLoginDate = item.label.props.children[1].props.children; // Acessar o texto do span
+
+      const employeeMatch = employeeName
+        .toLowerCase()
+        .includes(employeeFilter.toLowerCase());
+      const lastLoginMatch = lastLoginFilter
+        ? new Date(lastLoginDate).toLocaleDateString() ===
+          new Date(lastLoginFilter).toLocaleDateString()
+        : true;
+      const departmentMatch = departmentFilter
+        ? item.label.props.children[2].props.children === departmentFilter
+        : true;
+      const statusMatch = statusFilter
+        ? item.label.props.children[3].props.children === statusFilter
+        : true;
+
+      return employeeMatch && lastLoginMatch && departmentMatch && statusMatch;
+    });
+
+    setFilteredItems(filtered);
+  }, [employeeFilter, lastLoginFilter, departmentFilter, statusFilter]);
+
+  const clearFilters = () => {
+    setEmployeeFilter("");
+    setLastLoginFilter("");
+    setDepartmentFilter("");
+    setStatusFilter("");
+  };
 
   return (
     <div>
+      <div className="mb-4">
+        <p>Employees</p>
+        <div className="flex space-x-2 mb-2">
+          <input
+            type="text"
+            placeholder="Employee"
+            value={employeeFilter}
+            onChange={(e) => setEmployeeFilter(e.target.value)}
+            className="border rounded px-2"
+          />
+          <input
+            type="date"
+            value={lastLoginFilter}
+            onChange={(e) => setLastLoginFilter(e.target.value)}
+            className="border rounded px-2"
+          />
+          <select
+            value={departmentFilter}
+            onChange={(e) => setDepartmentFilter(e.target.value)}
+            className="border rounded px-2"
+          >
+            <option value="">All Departments</option>
+            <option value="Sales">Sales</option>
+            <option value="Marketing">Marketing</option>
+            {/* Adicione outros departamentos conforme necessário */}
+          </select>
+          <select
+            value={statusFilter}
+            onChange={(e) => setStatusFilter(e.target.value)}
+            className="border rounded px-2"
+          >
+            <option value="">All Statuses</option>
+            <option value="Active">Active</option>
+            <option value="Inactive">Inactive</option>
+          </select>
+          <button
+            onClick={clearFilters}
+            className="bg-blue-500 text-white rounded px-2"
+          >
+            Clear Filters
+          </button>
+        </div>
+      </div>
       <div className="grid grid-cols-4 gap-4 font-bold mb-2">
         <span>Employee</span>
         <span>Last Login</span>
         <span>Department</span>
         <span>Status</span>
       </div>
-      <Collapse items={items} />
+      <Collapse items={filteredItems} />
     </div>
   );
 }
