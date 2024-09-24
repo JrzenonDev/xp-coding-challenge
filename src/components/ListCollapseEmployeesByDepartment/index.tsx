@@ -141,7 +141,7 @@ export function ListCollapseEmployeesByDepartment() {
             onClick={clearFilters}
             className="bg-[#1e1add] text-white rounded-lg px-1 py-1 hover:bg-blue-600 transition-colors"
           >
-            Clear Filters
+            Clear
           </button>
         </div>
       </div>

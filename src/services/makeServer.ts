@@ -1,6 +1,5 @@
 import { createServer } from "miragejs";
 import { listEmployeesData } from "../mocks/listEmployeesData";
-import { dashBoardData } from "../mocks/dashBoardData";
 
 export function makeServer() {
   createServer({
@@ -9,11 +8,6 @@ export function makeServer() {
 
       this.get("/employees", () => {
         return listEmployeesData;
-      });
-
-      this.get("/dashboard", () => {
-        console.log("Endpoint /dashboard chamado");
-        return dashBoardData;
       });
     },
   });
