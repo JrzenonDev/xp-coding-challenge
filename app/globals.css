@@ -111,4 +111,5 @@ table {
 body {
   @apply bg-white text-gray-900 antialiased;
   font-family: "Inter", sans-serif;
+  background: #fafaff;
 }

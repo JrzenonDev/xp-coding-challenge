@@ -1,11 +1,17 @@
+"use client";
+
 import { BreadCrumbs } from "@/src/components/BreadCrumbs";
 import { DashBoard } from "@/src/components/DashBoard";
+import { ListCollapseEmployeesByDepartment } from "@/src/components/ListCollapseEmployeesByDepartment";
 
 export default function Home() {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-6">
+    <main className="p-6">
       <BreadCrumbs />
-      <DashBoard />
+      <section className="flex items-start gap-12">
+        <DashBoard />
+        <ListCollapseEmployeesByDepartment />
+      </section>
     </main>
   );
 }

@@ -445,8 +445,8 @@ export function ListCollapseEmployeesByDepartment() {
 
   useEffect(() => {
     const filtered = items.filter((item) => {
-      const employeeName = item.label.props.children[0].props.children; // Acessar o texto do span
-      const lastLoginDate = item.label.props.children[1].props.children; // Acessar o texto do span
+      const employeeName = item.label.props.children[0].props.children;
+      const lastLoginDate = item.label.props.children[1].props.children;
 
       const employeeMatch = employeeName
         .toLowerCase()
@@ -476,37 +476,36 @@ export function ListCollapseEmployeesByDepartment() {
   };
 
   return (
-    <div>
+    <div className="bg-white p-8 rounded-lg border border-gray-200">
       <div className="mb-4">
-        <p>Employees</p>
+        <p className="mb-4 text-lg font-semibold">Filter</p>
         <div className="flex space-x-2 mb-2">
           <input
             type="text"
             placeholder="Employee"
             value={employeeFilter}
             onChange={(e) => setEmployeeFilter(e.target.value)}
-            className="border rounded px-2"
+            className="border border-gray-300 rounded-lg px-1 py-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
           <input
             type="date"
             value={lastLoginFilter}
             onChange={(e) => setLastLoginFilter(e.target.value)}
-            className="border rounded px-2"
+            className="border border-gray-300 rounded-lg px-1 py-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
           <select
             value={departmentFilter}
             onChange={(e) => setDepartmentFilter(e.target.value)}
-            className="border rounded px-2"
+            className="border border-gray-300 rounded-lg px-1 py-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
           >
             <option value="">All Departments</option>
             <option value="Sales">Sales</option>
             <option value="Marketing">Marketing</option>
-            {/* Adicione outros departamentos conforme necessário */}
           </select>
           <select
             value={statusFilter}
             onChange={(e) => setStatusFilter(e.target.value)}
-            className="border rounded px-2"
+            className="border border-gray-300 rounded-lg px-1 py-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
           >
             <option value="">All Statuses</option>
             <option value="Active">Active</option>
@@ -514,19 +513,23 @@ export function ListCollapseEmployeesByDepartment() {
           </select>
           <button
             onClick={clearFilters}
-            className="bg-blue-500 text-white rounded px-2"
+            className="bg-blue-500 text-white rounded-lg px-1 py-1 hover:bg-blue-600 transition-colors"
           >
             Clear Filters
           </button>
         </div>
       </div>
-      <div className="grid grid-cols-4 gap-4 font-bold mb-2">
+
+      <div className="grid grid-cols-4 gap-4 font-bold mb-2 bg-transparent border-x border-t border-b border-gray-300 rounded-t-lg px-4 pt-8 pb-5">
         <span>Employee</span>
         <span>Last Login</span>
         <span>Department</span>
         <span>Status</span>
       </div>
-      <Collapse items={filteredItems} />
+      <Collapse
+        items={filteredItems}
+        className="border-t-transparent rounded-t-lg rounded-l-none rounded-r-none bg-transparent"
+      />
     </div>
   );
 }
